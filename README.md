@@ -72,16 +72,16 @@ Figures land in `reports/figures/`:
 
 Categorical fields are label-encoded, which deliberately handicaps the linear baseline (arbitrary ordinal codes) while letting tree-based models exploit the non-linear interactions that actually drive burden. Confidence-limit columns are **excluded** as features to avoid target leakage.
 
-### Results (original project submission)
+### Results (reproduced on this pipeline, random_state=42)
 
 | Model | RMSE | MAE | R² |
 |-------|-----:|----:|---:|
-| Linear Regression | 26,509 | 4,639 | 0.069 |
-| Random Forest | 14,704 | 951 | 0.714 |
-| **XGBoost** | **12,973** | **1,176** | **0.777** |
-| XGBoost (tuned) | 13,923 | 1,082 | 0.743 |
+| Linear Regression | 25,218 | 4,118 | 0.019 |
+| Random Forest | 12,902 | 633 | 0.743 |
+| **XGBoost** | **11,138** | **1,101** | **0.809** |
+| XGBoost (tuned) | 11,006 | 937 | 0.813 |
 
-**Headline:** R² rises from ~0.07 (linear) to ~0.78 (XGBoost) — tree-based models capture feature interactions that a linear model cannot.
+**Headline:** R² rises from ~0.02 (linear) to ~0.81 (XGBoost) — tree-based models capture feature interactions the linear baseline cannot.
 
 ### Reproducibility note
 
