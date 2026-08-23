@@ -1,0 +1,64 @@
+# ---------------------------------------------------------------------------
+# Configuration for the U.S. Chronic Disease Indicators pipeline
+# ---------------------------------------------------------------------------
+
+paths:
+  raw_csv: "data/raw/U_S__Chronic_Disease_Indicators.csv"
+  processed_dir: "data/processed"
+  cleaned_parquet: "data/processed/chronic_diseases_cleaned.parquet"
+  cleaned_csv: "data/processed/chronic_diseases_cleaned.csv"
+  figures_dir: "reports/figures"
+  metrics_dir: "reports/metrics"
+
+spark:
+  app_name: "ChronicDiseaseIndicators"
+  master: "local[*]"
+  driver_memory: "4g"
+  shuffle_partitions: 8
+
+# The four chronic disease topics this project focuses on.
+target_topics:
+  - "Cancer"
+  - "Cardiovascular Disease"
+  - "Diabetes"
+  - "Chronic Obstructive Pulmonary Disease"
+
+# Columns kept from the raw 34-column extract (drops empty / metadata fields).
+keep_columns:
+  - "YearStart"
+  - "YearEnd"
+  - "LocationDesc"
+  - "LocationAbbr"
+  - "Topic"
+  - "Question"
+  - "DataValue"
+  - "DataValueType"
+  - "DataValueUnit"
+  - "LowConfidenceLimit"
+  - "HighConfidenceLimit"
+  - "Stratification1"
+  - "StratificationCategory1"
+
+modeling:
+  target: "DataValue"
+  numeric_features:
+    - "YearStart"
+    - "YearEnd"
+  categorical_features:
+    - "LocationAbbr"
+    - "Topic"
+    - "Question"
+    - "DataValueType"
+    - "DataValueUnit"
+    - "Stratification1"
+    - "StratificationCategory1"
+  test_size: 0.2
+  random_state: 42
+  random_forest:
+    n_estimators: 200
+  xgboost:
+    n_estimators: 300
+    max_depth: 7
+    learning_rate: 0.08
+    subsample: 0.9
+    colsample_bytree: 0.9
